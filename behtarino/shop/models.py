@@ -2,9 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-# تابعی برای بدست آوردن لیست کاربرانی که بیشتر از n  خرید داشته اند
+# تابعی برای بدست آوردن لیست کاربرانی که حداقل n  خرید داشته اند
 def getUsersWithGtNOrders(n):
-    return User.objects.filter(orders__gt=int(n))
+    return User.objects.filter(orders__gte=int(n))
 
 
 # تابعی برای بدست آوردن لیست محصولاتی که بیشتر از k  بار در سبد خرید قرار گرفته اند
@@ -17,9 +17,9 @@ def getProductsPaidPriceGtN(n):
     return Product.objects.filter(orderLines__price__gt=float(n))
 
 
-# تابعی برای بدست آوردن لیست محصولاتی که تعداد فروش آنها بیشتر از n بوده است
+# تابعی برای بدست آوردن لیست محصولاتی که تعداد فروش آنها حداقل n بوده است
 def getProductsPaidQuantityGtN(n):
-    return Product.objects.filter(orderLines__quantity__gt=int(n))
+    return Product.objects.filter(orderLines__quantity__gte=int(n))
 
 
 class Order(models.Model):
@@ -42,7 +42,7 @@ class OrderLine(models.Model):
         related_name='orderLines',
     )
     quantity = models.IntegerField()
-    price = models.DecimalField(max_digits=20, decimal_places=3)
+    price = models.FloatField()
 
     def save(self, *args, **kwargs):
         self.price = self.quantity * self.product.price
@@ -58,7 +58,7 @@ class Product(models.Model):
     name = models.CharField(
         max_length=255,
     )
-    price = models.DecimalField(max_digits=20, decimal_places=3)
+    price = models.FloatField()
 
 
 class Category(models.Model):
