@@ -2,18 +2,22 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+# تابعی برای بدست آوردن لیست کاربرانی که بیشتر از n  خرید داشته اند
 def getUsersWithGtNOrders(n):
     return User.objects.filter(orders__gt=int(n))
 
 
+# تابعی برای بدست آوردن لیست محصولاتی که بیشتر از k  بار در سبد خرید قرار گرفته اند
 def getProductsOrderOfOrderLinesGtK(k):
     return Product.objects.filter(orderLines__order__gt=int(k))
 
 
+# تابعی برای بدست آوردن لیست محصولاتی که قیمت فروش آنها بیشتر از n بوده است
 def getProductsPaidPriceGtN(n):
     return Product.objects.filter(orderLines__price__gt=float(n))
 
 
+# تابعی برای بدست آوردن لیست محصولاتی که تعداد فروش آنها بیشتر از n بوده است
 def getProductsPaidQuantityGtN(n):
     return Product.objects.filter(orderLines__quantity__gt=int(n))
 
