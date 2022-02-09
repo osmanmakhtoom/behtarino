@@ -42,7 +42,7 @@ class OrderLine(models.Model):
         related_name='orderLines',
     )
     quantity = models.IntegerField()
-    price = models.FloatField()
+    price = models.DecimalField(max_digits=20, decimal_places=3)
 
     def save(self, *args, **kwargs):
         self.price = self.quantity * self.product.price
@@ -58,7 +58,7 @@ class Product(models.Model):
     name = models.CharField(
         max_length=255,
     )
-    price = models.FloatField()
+    price = models.DecimalField(max_digits=20, decimal_places=3)
 
 
 class Category(models.Model):
